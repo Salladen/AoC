@@ -1,0 +1,19 @@
+# Argument explanations:
+DCMAKE_CXX_FLAGS: A double-quoted string is expected for this flag (space-separated list of flags)
+DCMAKE_TOOLCHAIN_FILE: This project assumes that vcpkg is installed and that it's used to manage dependencies
+DVCPKG_TARGET_TRIPLET: The target platform for vcpkg
+
+# Increases binary sizes, but removes the need for shared libraries
+Add to DCMAKE_CXX_FLAGS:
+  - "-static-libgcc" 
+  - "-static-libstdc++" 
+
+# For vcpkg integration, include the following in your CMake arguments:
+# 1. Replace [[platform]] with the target platform
+# 2. Replace [[vcpkg_dir]] with the path to your vcpkg directory (make sure it has cmake installed)
+-DCMAKE_TOOLCHAIN_FILE=[[vcpkg_dir]]\scripts\buildsystems\vcpkg.cmake
+-DVCPKG_TARGET_TRIPLET=[[platform]]
+
+# For step-by-step debugging, add the following to CMAKE_CXX_FLAGS:
+Add to DCMAKE_CXX_FLAGS:
+  - "-O0"
